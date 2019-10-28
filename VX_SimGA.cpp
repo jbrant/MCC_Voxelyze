@@ -93,14 +93,17 @@ void CVX_SimGA::WriteResultFile(CXML_Rip* pXML)
 	// pXML->Element("DistanceFitness", totalPoints);
 	// pXML->Element("CompositeFitness", (SS.CurCM-IniCM).Length()/LocalVXC.GetLatticeDim()*(COMZ/numSamples) );
 	// pXML->Element("Height", COMZ/numSamples );
-	pXML->Element("CompositeFitness", dist/LocalVXC.GetLatticeDim()*COMZ );
-	pXML->Element("Height", COMZ );
-	pXML->Element("Distance", dist/LocalVXC.GetLatticeDim() );
-	pXML->Element("DistX", (SS.CurCM.x-IniCM.x)/LocalVXC.GetLatticeDim() );
-	pXML->Element("NumOutOfCageX", numVoxelsOutside);
-	pXML->Element("GoalDirected", pow(pow(fitness1,2)+pow(fitness2,2),0.5) );
-	pXML->Element("Goal1", fitness1);
-	pXML->Element("Goal2", fitness2);
+	//pXML->Element("CompositeFitness", dist/LocalVXC.GetLatticeDim()*COMZ );
+	//pXML->Element("DistX", (SS.CurCM.x-IniCM.x)/LocalVXC.GetLatticeDim() );
+	//pXML->Element("NumOutOfCageX", numVoxelsOutside);
+	//pXML->Element("GoalDirected", pow(pow(fitness1,2)+pow(fitness2,2),0.5) );
+	//pXML->Element("Goal1", fitness1);
+	//pXML->Element("Goal2", fitness2);
+    pXML->Element("Height", COMZ );
+    pXML->Element("Distance", dist/LocalVXC.GetLatticeDim() );
+    pXML->Element("xPos", SS.CurCM.x);
+    pXML->Element("yPos", SS.CurCM.y);
+    pXML->Element("simTime", GetCurTime());
 	pXML->UpLevel();
 	pXML->UpLevel();
 

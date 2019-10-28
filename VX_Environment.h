@@ -87,6 +87,7 @@ public:
 	float FloorSlope;
 	float goalLocationX;
 	float goalLocationY;
+	float goalDistance;
 
 #ifdef USE_OPEN_GL
 	void DrawBCs(int Selected); //draws the current boundary conditions

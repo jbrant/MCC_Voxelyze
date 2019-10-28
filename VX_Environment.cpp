@@ -159,8 +159,6 @@ bool CVX_Environment::ReadXML(CXML_Rip* pXML, std::string* RetMessage) //pXML po
 		if (!pXML->FindLoadElement("GravAcc", &GravAcc)) GravAcc = -9.81;
 		if (!pXML->FindLoadElement("FloorEnabled", &FloorEnabled)) FloorEnabled = false;
 		if (!pXML->FindLoadElement("FloorSlope", &FloorSlope)) FloorSlope = 0.0;
-		if (!pXML->FindLoadElement("GoalLocationX", &goalLocationX)) goalLocationX = 0.0;
-		if (!pXML->FindLoadElement("GoalLocationY", &goalLocationY)) goalLocationY = 0.0;
 
 		pXML->UpLevel();
 	}
@@ -193,6 +191,14 @@ bool CVX_Environment::ReadXML(CXML_Rip* pXML, std::string* RetMessage) //pXML po
 		if (!pXML->FindLoadElement("OutputSmoothing", &outputSmoothing)) outputSmoothing = 0;
 
 		pXML->UpLevel();
+	}
+
+	if (pXML->FindElement("MinimalCriterion")){
+        if (!pXML->FindLoadElement("GoalLocationX", &goalLocationX)) goalLocationX = 0.0;
+        if (!pXML->FindLoadElement("GoalLocationY", &goalLocationY)) goalLocationY = 0.0;
+        if (!pXML->FindLoadElement("Distance", &goalDistance)) goalDistance = 0.0;
+
+        pXML->UpLevel();
 	}
 
 	return true;

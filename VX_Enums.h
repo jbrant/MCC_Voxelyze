@@ -56,6 +56,8 @@ enum StopCondition {
 	SC_NONE, //!<Runs indefinitely
 	SC_MAX_TIME_STEPS, //!<Runs to a set maximum number of timesteps
 	SC_MAX_SIM_TIME, //!<Runs for a set number of simulation seconds
+    SC_GOAL_MAX_SIM_TIME, //!<Runs until a goal location is reached, or until simulation time (seconds) exhausted
+	SC_DIST_MAX_SIM_TIME, //!<Runs until a minimum distance is traversed, or until simulation time (seconds) exhausted
 	SC_TEMP_CYCLES, //!<IF temperature is varying, runs for a set number of cycles. Otherwise runs indefinitely.
 	SC_CONST_MAXENERGY, //!<runs until kinetic+potential energy stabilizes to threshhold. Begins checking after 50 time steps, energy must stay within StopConditionValue threshold for 10 consecutive readings at 50 simulation steps apart.
 	SC_MIN_KE, //!<runs until kinetic energy is below a threshhold. Begins checking after 10 time steps, energy must stay below StopConditionValue threshold for 10 consecutive readings at 50 simulation steps apart.

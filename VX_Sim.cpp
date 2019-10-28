@@ -1190,6 +1190,10 @@ bool CVX_Sim::StopConditionMet(void) //have we met the stop condition yet?
 		case SC_MAX_TIME_STEPS: return (CurStepCount>(int)(StopConditionValue+0.5))?true:false;
 		// case SC_MAX_SIM_TIME: return CurTime>StopConditionValue?true:false;
 		case SC_MAX_SIM_TIME: return (CurTime>StopConditionValue and (fitness1 > 0 or pEnv->goalLocationX<=0))?true:false;
+        case SC_GOAL_MAX_SIM_TIME:
+            return ((SS.CurCM.x >= pEnv->goalLocationX and SS.CurCM.y >= pEnv->goalLocationY) or
+                    CurTime > StopConditionValue);
+        case SC_DIST_MAX_SIM_TIME: return GetCurDistance() >= pEnv->goalDistance or CurTime > StopConditionValue;
 		case SC_TEMP_CYCLES:  return CurTime>pEnv->GetTempPeriod()*StopConditionValue?true:false;
 		case SC_CONST_MAXENERGY:{
 			vfloat IniTotVal = TotEHistory[0];
