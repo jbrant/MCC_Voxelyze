@@ -11,6 +11,7 @@ See <http://www.opensource.org/licenses/lgpl-3.0.html> for license details.
 #include "VX_Sim.h"
 #include "VXS_Voxel.h"
 #include "VXS_Bond.h"
+#include <iso646.h>
 
 #include <sstream>
 #include <iostream>

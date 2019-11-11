@@ -10,6 +10,7 @@ See <http://www.opensource.org/licenses/lgpl-3.0.html> for license details.
 
 #include "VXS_SimGLView.h"
 #include "Utils/GL_Utils.h"
+#include <iso646.h>
 
 CVXS_SimGLView::CVXS_SimGLView(CVX_Sim* pSimIn)
 {
@@ -176,8 +177,8 @@ void CVXS_SimGLView::DrawFloor(void)
 	for (int i=-20; i <=30; i++){
 		for (int j=-40; j <=60; j++){
 			
-			// glColor4d(0.6, 0.7+0.2*((int)(1000*sin((float)(i+110)*(j+106)*(j+302)))%10)/10.0, 0.6, 1.0);
-			glColor4d(1.0, 1.0, 1.0, 1.0);
+			glColor4d(0.6, 0.7+0.2*((int)(1000*sin((float)(i+110)*(j+106)*(j+302)))%10)/10.0, 0.6, 1.0);
+			//glColor4d(1.0, 1.0, 1.0, 1.0);
 
 			glBegin(GL_TRIANGLE_FAN);
 			glVertex3d(i*sX, 			j*sY, 			 floorHeight);
@@ -190,8 +191,8 @@ void CVXS_SimGLView::DrawFloor(void)
 			glVertex3d(i*sX+0.5*Size, 	j*sY, 			 floorHeight);
 			glEnd();
 
-			// glColor4d(0.6, 0.7+0.2*((int)(1000*sin((float)(i+100)*(j+103)*(j+369)))%10)/10.0, 0.6, 1.0);
-			glColor4d(1.0, 1.0, 1.0, 1.0);
+			glColor4d(0.6, 0.7+0.2*((int)(1000*sin((float)(i+100)*(j+103)*(j+369)))%10)/10.0, 0.6, 1.0);
+			//glColor4d(1.0, 1.0, 1.0, 1.0);
 
 			glBegin(GL_TRIANGLE_FAN);
 			glVertex3d(i*sX+.75*Size, 	j*sY+0.433*Size, floorHeight);
