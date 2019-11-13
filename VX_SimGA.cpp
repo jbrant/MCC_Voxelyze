@@ -42,7 +42,6 @@ void CVX_SimGA::WriteResultFile(CXML_Rip* pXML)
 // 		if (it->second < 0 ) {badSteps++;}
 // 	}
 // 	// std::cout << "totalPoints: " << totalPoints << std::endl;
-	float dist = pow(pow(SS.CurCM.x-IniCM.x,2)+pow(SS.CurCM.y-IniCM.y,2),0.5);	
 
 	float maxCageDistX = 0.0;
 	for (int i=0; i<NumVox(); i++){
@@ -75,8 +74,6 @@ void CVX_SimGA::WriteResultFile(CXML_Rip* pXML)
 		numVoxelsOutside = farthestX/100.0;
 	}
 
-	float fitness2 = pow(pow(currentGoalLocationX-SS.CurCM.x/pEnv->pObj->GetLatticeDim(), 2)+pow(currentGoalLocationY-SS.CurCM.y/pEnv->pObj->GetLatticeDim(), 2),0.5);
-
 	pXML->DownLevel("Voxelyze_Sim_Result");
 	pXML->SetElAttribute("Version", "1.0");
 	pXML->DownLevel("Fitness");
@@ -98,9 +95,8 @@ void CVX_SimGA::WriteResultFile(CXML_Rip* pXML)
 	//pXML->Element("NumOutOfCageX", numVoxelsOutside);
 	//pXML->Element("GoalDirected", pow(pow(fitness1,2)+pow(fitness2,2),0.5) );
 	//pXML->Element("Goal1", fitness1);
-	//pXML->Element("Goal2", fitness2);
     pXML->Element("Height", COMZ );
-    pXML->Element("Distance", dist/LocalVXC.GetLatticeDim() );
+    pXML->Element("Distance", GetCurDistance());
     pXML->Element("xPos", SS.CurCM.x);
     pXML->Element("yPos", SS.CurCM.y);
     pXML->Element("simTime", GetCurTime());

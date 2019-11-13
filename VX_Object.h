@@ -194,6 +194,11 @@ public:
 
 	inline void SetSynapseWeight(int VoxelIndex, int SynapseIndex, double Value) {pSynapseWeigths[VoxelIndex][SynapseIndex] = Value;} // nac: sets the material index here
 	inline double GetSynapseWeight(int VoxelIndex, int SynapseIndex) const {return pSynapseWeigths[VoxelIndex][SynapseIndex];}
+	inline void InitSynapseWeightArray(int SizeVoxels, int SizeSynapses) {
+	    pSynapseWeigths = new double* [SizeVoxels];
+	    for (int i = 0; i < SizeVoxels; i++)
+	        pSynapseWeigths[i] = new double[SizeSynapses];
+	}
 	// inline void InitSynapseWeightArray(int SizeVoxels, int SizeSynapses) {pSynapseWeigths = new double[1000][10];}
 	// inline void InitSynapseWeightArray(int SizeVoxels, int SizeSynapses) {pSynapseWeigths = std::vector< std::vector<double >(SizeVoxels, std::vector<double>(SizeSynapses,0.0));}
 	inline int GetNumSynapses() const {return numSynapses;}
@@ -211,9 +216,9 @@ protected:
 	double* pAmpBaseline;
 	double* pAmpResponse;
 
-	// double* pSynapseWeigths;
-	double pSynapseWeigths[1000][20];
-	// std::vector< std::vector<double> > pSynapseWeigths;
+	double **pSynapseWeigths;
+	// double pSynapseWeigths[1000][20];
+	//std::vector< std::vector<double> > pSynapseWeigths;
 
 	int X_Voxels;
 	int Y_Voxels;

@@ -1882,7 +1882,7 @@ bool CVXC_Structure::ReadXML(CXML_Rip* pXML, std::string Version, std::string* R
 	if (pXML->FindElement("SynapseWeights")){ 
 		int voxCounter = 0;
 		// std::cout << "here1" << std::endl;
-		// InitSynapseWeightArray(X_Voxels*Y_Voxels*Z_Voxels,numSynapses); //nac: hard coded... for now
+		InitSynapseWeightArray(X_Voxels*Y_Voxels*Z_Voxels,numSynapses); //nac: hard coded... for now
 		for (int i=0; i<Z_Voxels; i++)
 		{
 			// std::cout << "here2" << std::endl;
@@ -2000,7 +2000,7 @@ bool CVXC_Structure::ReadXML(CXML_Rip* pXML, std::string Version, std::string* R
 	return true;
 }
 
-std::string CVXC_Structure::ToBase64(unsigned char const* bytes_to_encode, unsigned int in_len) // René Nyffenegger http://www.adp-gmbh.ch/cpp/common/base64.html
+std::string CVXC_Structure::ToBase64(unsigned char const* bytes_to_encode, unsigned int in_len) // Renï¿½ Nyffenegger http://www.adp-gmbh.ch/cpp/common/base64.html
 {
 	std::string ret;
 	int i = 0;
@@ -2033,7 +2033,7 @@ std::string CVXC_Structure::ToBase64(unsigned char const* bytes_to_encode, unsig
 	return ret;
 }
 
-std::string CVXC_Structure::FromBase64(std::string const& encoded_string) // René Nyffenegger http://www.adp-gmbh.ch/cpp/common/base64.html
+std::string CVXC_Structure::FromBase64(std::string const& encoded_string) // Renï¿½ Nyffenegger http://www.adp-gmbh.ch/cpp/common/base64.html
 {
 	int in_len = encoded_string.size();
 	int i = 0;
