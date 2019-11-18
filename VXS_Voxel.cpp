@@ -635,11 +635,9 @@ Vec3D<> CVXS_Voxel::CalcFloorEffect(Vec3D<> TotalVoxForce) //calculates the obje
 				LinMom.y = 0;
 			}
 		}
-		StaticFricFlag = true;
-		LinMom.x = 0; //fully stop the voxel here! (caution...)
-		LinMom.y = 0;	
 		
 	}
+
 	return FloorForce;
 
 }
