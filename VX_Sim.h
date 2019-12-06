@@ -114,7 +114,7 @@ public:
 	void DtFreeze(void) {OptimalDt = CalcMaxDt(); dt = DtFrac*OptimalDt; DtFrozen = true;}
 	void DtThaw(void) {DtFrozen = false;}
 
-    inline float GetCurDistance() {
+    inline vfloat GetCurDistance() {
         return pow(pow(SS.CurCM.x - IniCM.x, 2) + pow(SS.CurCM.y - IniCM.y, 2), 0.5) / LocalVXC.GetLatticeDim();
     }
 
