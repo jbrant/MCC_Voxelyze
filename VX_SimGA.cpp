@@ -19,7 +19,7 @@ CVX_SimGA::CVX_SimGA()
 //	print_scrn = false;
 	WriteFitnessFile = false;
 	FitnessType = FT_NONE;	//no reporting is default
-
+    pSimLog = new CXML_Rip();
 }
 
 void CVX_SimGA::SaveResultFile(std::string filename)
@@ -117,6 +117,8 @@ void CVX_SimGA::WriteAdditionalSimXML(CXML_Rip* pXML)
 		pXML->Element("TrackVoxel", TrackVoxel);
 		pXML->Element("FitnessFileName", FitnessFileName);
 		pXML->Element("WriteFitnessFile", WriteFitnessFile);
+        pXML->Element("SimLogFileName", SimLogFileName);
+        pXML->Element("WriteSimLogFile", WriteSimLogFile);
 	pXML->UpLevel();
 }
 
@@ -128,9 +130,53 @@ bool CVX_SimGA::ReadAdditionalSimXML(CXML_Rip* pXML, std::string* RetMessage)
 		if (pXML->FindLoadElement("FitnessType", &TmpInt)) FitnessType=(FitnessTypes)TmpInt; else Fitness = 0;
 		if (!pXML->FindLoadElement("TrackVoxel", &TrackVoxel)) TrackVoxel = 0;
 		if (!pXML->FindLoadElement("FitnessFileName", &FitnessFileName)) FitnessFileName = "";
-		if (!pXML->FindLoadElement("WriteFitnessFile", &WriteFitnessFile)) WriteFitnessFile = true;
+		if (!pXML->FindLoadElement("WriteFitnessFile", &WriteFitnessFile)) WriteFitnessFile = false;
+        if (!pXML->FindLoadElement("SimLogFileName", &SimLogFileName)) SimLogFileName = "";
+        if (!pXML->FindLoadElement("WriteSimLogFile", &WriteSimLogFile)) WriteSimLogFile = false;
+
 		pXML->UpLevel();
 	}
 
 	return true;
+}
+
+/**
+ * Writes the top-level element in the verbose simulation log.
+ */
+void CVX_SimGA::OpenSimLog() {
+    pSimLog->DownLevel("SimLogData");
+}
+
+/**
+ * Writes a single line to the verbose simulation log.
+ */
+void CVX_SimGA::WriteSimLogEntry(long int timeStep) {
+
+    pSimLog->DownLevel("SimEntry");
+    pSimLog->SetElAttribute("TimeStep", timeStep);
+
+    // Write simulation state properties
+    pSimLog->Element("Time", GetCurTime());
+    pSimLog->Element("xPos", SS.CurCM.x);
+    pSimLog->Element("yPos", SS.CurCM.y);
+    pSimLog->Element("zPos", SS.CurCM.z);
+    pSimLog->Element("Distance", GetCurDistance());
+    pSimLog->Element("VoxelsTouchingFloor", GetNumTouchingFloor());
+    pSimLog->Element("MaxVoxelVelocity", SS.MaxVoxVel);
+    pSimLog->Element("MaxVoxelDisplacement", SS.MaxVoxDisp);
+    pSimLog->Element("xDisplacement", SS.TotalObjDisp.x);
+    pSimLog->Element("yDisplacement", SS.TotalObjDisp.y);
+    pSimLog->Element("zDisplacement", SS.TotalObjDisp.z);
+
+    pSimLog->UpLevel();
+}
+
+/**
+ * Closes and writes the verbose simulation log.
+ *
+ * @param filename The name of the simulation log file.
+ */
+void CVX_SimGA::CloseSimLog(std::string filename) {
+    pSimLog->UpLevel();
+    pSimLog->SaveFile(filename);
 }

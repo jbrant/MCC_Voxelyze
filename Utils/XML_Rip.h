@@ -62,6 +62,7 @@ public:
 	void SetElAttribute(std::string Att, double Value) {std::ostringstream tmp; tmp << Value; SetElAttribute(Att, tmp.str());}; //adds an attribute to the current element in the stack
 	void SetElAttribute(std::string Att, float Value) {std::ostringstream tmp; tmp << Value; SetElAttribute(Att, tmp.str());}; //adds an attribute to the current element in the stack
 	void SetElAttribute(std::string Att, int Value) {std::ostringstream tmp; tmp << Value; SetElAttribute(Att, tmp.str());};  //adds an attribute to the current element in the stack
+	void SetElAttribute(std::string Att, long int Value) {std::ostringstream tmp; tmp << Value; SetElAttribute(Att, tmp.str());}; //adds an attribute to the current element in the stack
 
 	//for loading
 	std::string LastTagSearched; //keep track of which tag we last looks for. if new query same as last, look for siblings.

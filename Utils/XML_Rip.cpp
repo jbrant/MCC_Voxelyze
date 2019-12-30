@@ -206,7 +206,9 @@ bool CXML_Rip::FindElement(std::string tag) //finds element if it exists and app
 
 bool CXML_Rip::FindLoadElement(std::string tag, std::string* pString, bool StayDown, bool CDATA)
 {
-	if (!FindElement(tag)) return false;
+    bool isFound = false;
+
+	if (!FindElement(tag)) return isFound;
 
 #ifdef QT_XML_LIB
 	if (CDATA){
@@ -220,15 +222,15 @@ bool CXML_Rip::FindLoadElement(std::string tag, std::string* pString, bool StayD
 		*pString = childText.data().toStdString();
 	}
 #else //TINY_XML
-	TiXmlText* pText = ElStack.back()->FirstChild()->ToText();
-	if (pText == 0) return false;
-	*pString = pText->Value();
-
+    if (ElStack.back()->FirstChild() && ElStack.back()->FirstChild()->ToText()) {
+        *pString = ElStack.back()->FirstChild()->ToText()->Value();
+        isFound = true;
+    }
 #endif
 
 	if (!StayDown) UpLevel(); //if we're not expecting to load more tags of the same name...
 
-	return true;
+	return isFound;
 }
 
 void CXML_Rip::GetElAttribute(std::string Att, std::string* pString) {

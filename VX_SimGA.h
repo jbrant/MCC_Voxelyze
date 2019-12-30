@@ -26,6 +26,10 @@ public:
 	void SaveResultFile(std::string filename);
 	void WriteResultFile(CXML_Rip* pXML);
 
+	void OpenSimLog();
+	void WriteSimLogEntry(long int timeStep);
+	void CloseSimLog(std::string filename);
+
 	void WriteAdditionalSimXML(CXML_Rip* pXML);
 	bool ReadAdditionalSimXML(CXML_Rip* pXML, std::string* RetMessage = NULL);
 
@@ -34,6 +38,11 @@ public:
 	int	TrackVoxel;		//!<Holds the particular voxel that will be tracked (if used).
 	std::string FitnessFileName;	//!<Holds the filename of the fitness output file that might be used
 	bool WriteFitnessFile;
+
+	std::string SimLogFileName; //!<Holds the filename of the detailed simulation log output file
+	bool WriteSimLogFile;
+
+	CXML_Rip* pSimLog; //!<Incrementally writes simulation state to log file
 //	bool print_scrn;	//!<flags whether status will be sent to the console
 
 };
