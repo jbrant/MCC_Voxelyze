@@ -1230,7 +1230,17 @@ bool CVX_Sim::UpdateStats(std::string* pRetMessage) //updates simulation state (
 	if (StatToCalc == CALCSTAT_NONE) return true;
 	bool CCom=StatToCalc&CALCSTAT_COM, CDisp=StatToCalc&CALCSTAT_DISP, CVel=StatToCalc & CALCSTAT_VEL, CKinE=StatToCalc&CALCSTAT_KINE, CStrE=StatToCalc&CALCSTAT_STRAINE, CEStrn=StatToCalc&CALCSTAT_ENGSTRAIN, CEStrs=StatToCalc&CALCSTAT_ENGSTRESS, CPressure=StatToCalc&CALCSTAT_PRESSURE;
 
-	if (CCom) SS.CurCM = GetCM(); //calculate center of mass
+	if (CCom)
+	{
+	    // Copy initial center of mass
+        Vec3D<> initialCM = SS.CurCM;
+
+        //calculate center of mass
+	    SS.CurCM = GetCM();
+
+	    // Compute distance traveled during time step and add to accumulator
+	    SS.TotalDistanceTraversed += GetDistance(initialCM, SS.CurCM);
+	}
 
 	//update the overall statisics (can't do this within threaded loops and be safe without mutexes...
 	vfloat tmpMaxVoxDisp2 = 0, tmpMaxVoxVel2 = 0, tmpMaxVoxKineticE = 0, tmpMaxVoxStrainE = 0, tmpMaxPressure = -FLT_MAX, tmpMinPressure = FLT_MAX;
@@ -1271,6 +1281,11 @@ bool CVX_Sim::UpdateStats(std::string* pRetMessage) //updates simulation state (
 			SS.TotalObjDisp = tmpTotalObjDisp;
 			SS.NormObjDisp = tmpTotalObjDisp.Length();
 			SS.MaxVoxDisp = sqrt(tmpMaxVoxDisp2);
+
+			// Update max center-of-mass displacement
+			vfloat curDistanceFromStart = GetCurDistance();
+			if (curDistanceFromStart > SS.MaxTrialDisplacement)
+			    SS.MaxTrialDisplacement = curDistanceFromStart;
 		}
 
 		if (CVel) SS.MaxVoxVel = sqrt(tmpMaxVoxVel2);
@@ -1306,7 +1321,6 @@ bool CVX_Sim::UpdateStats(std::string* pRetMessage) //updates simulation state (
 		if (CEStrs) SS.MaxBondStress = tmpMaxBondStress;
 
 	}
-
 
 	//update histories
 	MaxMoveHistory.push_front(CVel ? SS.MaxVoxVel*dt : -1.0); MaxMoveHistory.pop_back();

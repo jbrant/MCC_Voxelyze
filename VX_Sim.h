@@ -33,12 +33,17 @@ See <http://www.opensource.org/licenses/lgpl-3.0.html> for license details.
 //#define INPUT_VOX_INDEX -1
 
 struct SimState { //Information about current simulation state:
-	void Clear() {CurCM = TotalObjDisp = Vec3D<>(0,0,0); NormObjDisp = MaxVoxDisp = MaxVoxVel = MaxVoxKinE = MaxBondStrain = MaxBondStress = MaxBondStrainE = TotalObjKineticE = TotalObjStrainE = MaxPressure = MinPressure = 0.0;}
+    void Clear() {
+        CurCM = TotalObjDisp = Vec3D<>(0, 0, 0);
+        NormObjDisp = MaxVoxDisp = MaxVoxVel = MaxVoxKinE = MaxBondStrain = MaxBondStress = MaxBondStrainE = TotalObjKineticE = TotalObjStrainE = MaxPressure = MinPressure  = TotalDistanceTraversed = MaxTrialDisplacement = 0.0;
+    }
 	Vec3D<> CurCM;
 	Vec3D<> TotalObjDisp; //a vector total of the magnitude of displacements
 	vfloat NormObjDisp; //reduced to a scalar (magnitude) 
 	vfloat MaxVoxDisp, MaxVoxVel, MaxVoxKinE, MaxBondStrain, MaxBondStress, MaxBondStrainE, MaxPressure, MinPressure;
 	vfloat TotalObjKineticE, TotalObjStrainE;
+    vfloat TotalDistanceTraversed; // Traversal distance accumulator
+    vfloat MaxTrialDisplacement; // Magnitude of maximum displacement of center of mass from starting position
 };
 
 //!Dynamic simulation class for time simulation of voxel objects.
@@ -115,7 +120,12 @@ public:
 	void DtThaw(void) {DtFrozen = false;}
 
     inline vfloat GetCurDistance() {
-        return pow(pow(SS.CurCM.x - IniCM.x, 2) + pow(SS.CurCM.y - IniCM.y, 2), 0.5) / LocalVXC.GetLatticeDim();
+        return GetDistance(IniCM, SS.CurCM);
+    }
+
+    inline vfloat GetDistance(Vec3D<> startCM, Vec3D<> endCM)
+    {
+        return pow(pow(endCM.x - startCM.x, 2) + pow(endCM.y - startCM.y, 2), 0.5) / LocalVXC.GetLatticeDim();
     }
 
 	bool CmInitialized; //nac
@@ -272,11 +282,10 @@ protected:
 	// std::deque<vfloat> TotEHistory;
 	// std::deque<vfloat> MaxMoveHistory;
 
-	public:
+public:
 	std::deque<vfloat> KinEHistory; //value [0] is the newest...
 	std::deque<vfloat> TotEHistory;
 	std::deque<vfloat> MaxMoveHistory;
-
 
 	CMesh* ImportSurfMesh; //local copy of any imported geometry surface mesh (optional)
 

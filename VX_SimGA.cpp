@@ -161,9 +161,11 @@ void CVX_SimGA::WriteSimLogEntry(long int timeStep) {
     pSimLog->Element("yPos", SS.CurCM.y);
     pSimLog->Element("zPos", SS.CurCM.z);
     pSimLog->Element("Distance", GetCurDistance());
+    pSimLog->Element("TotalDistance", SS.TotalDistanceTraversed);
     pSimLog->Element("VoxelsTouchingFloor", GetNumTouchingFloor());
     pSimLog->Element("MaxVoxelVelocity", SS.MaxVoxVel);
     pSimLog->Element("MaxVoxelDisplacement", SS.MaxVoxDisp);
+    pSimLog->Element("MaxTrialDisplacement", SS.MaxTrialDisplacement);
     pSimLog->Element("xDisplacement", SS.TotalObjDisp.x);
     pSimLog->Element("yDisplacement", SS.TotalObjDisp.y);
     pSimLog->Element("zDisplacement", SS.TotalObjDisp.z);
